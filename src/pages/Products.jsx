@@ -42,7 +42,7 @@ function Products() {
 
   const toggle = () => {
     setModal(!modal);
-    setUpdate(null)
+    setUpdate(null);
   }; // ochish/yopish
 
   const deleteProduct = (id) => {
@@ -82,7 +82,12 @@ function Products() {
           })
           .map((item) => (
             <div className="col-md-4" key={item.id}>
-              <Card item={item} deleteProduct={deleteProduct} toggle={toggle} setUpdate={setUpdate}/>
+              <Card
+                item={item}
+                deleteProduct={deleteProduct}
+                toggle={toggle}
+                setUpdate={setUpdate}
+              />
             </div>
           ))}
       </div>
