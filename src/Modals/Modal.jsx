@@ -1,11 +1,9 @@
 // src/components/MyModal.jsx
 
-import React, { useState } from "react";
+import { useState } from "react";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 
-function MyModal({products, setProducts}) {
-  const [modal, setModal] = useState(false);
-
+function MyModal({ products, setProducts, modal, toggle, update }) {
   const [form, setForm] = useState({
     name: "",
     price: "",
@@ -13,21 +11,34 @@ function MyModal({products, setProducts}) {
     quantity: "",
   });
 
-
-
-  const toggle = () => setModal(!modal); // ochish/yopish
-
-  const createProduct = (e) =>{
-    const newProducts = [...products, {...form, id: products.length + 1, img: "/src/assets/acer.jpg"}]
-    setProducts(newProducts)
-    toggle()
-  }
-
+  const createProduct = (e) => {
+    if (update === null) {
+      const newProducts = [
+        ...products,
+        { ...form, id: products.length + 1, img: "/src/assets/acer.jpg" },
+      ];
+      setProducts(newProducts);
+    } else {
+      products.forEach((item) => {
+        if (item.id == update.id) {
+          item.name = form.name ? form.name : update.name;
+          item.price = form.price ? form.price : update.price;
+          item.sale = form.sale ? form.sale : update.sale;
+          item.quantity = form.quantity ? form.quantity : update.quantity;
+        }
+      });
+      setProducts(products)
+    }
+    setForm({ name: "", price: "", sale: "", quantity: "" });
+    toggle();
+  };
 
   const handleChange = (e) => {
-  const { name, value } = e.target;
-  setForm((prev) => ({ ...prev, [name]: value }));
-};
+    const { name, value } = e.target;
+    setForm((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const cancelModal = () => toggle();
 
   return (
     <div>
@@ -36,7 +47,9 @@ function MyModal({products, setProducts}) {
       </Button>
 
       <Modal isOpen={modal} toggle={toggle}>
-        <ModalHeader toggle={toggle}>Sarlavha</ModalHeader>
+        <ModalHeader toggle={toggle}>
+          {update === null ? <span>Add Product</span> : <span>Update</span>}
+        </ModalHeader>
         <ModalBody>
           <form>
             <div className="mb-3">
@@ -50,6 +63,7 @@ function MyModal({products, setProducts}) {
                 placeholder="Name..."
                 name="name"
                 onChange={handleChange}
+                defaultValue={update?.name}
               />
             </div>
 
@@ -64,7 +78,7 @@ function MyModal({products, setProducts}) {
                 placeholder="Price..."
                 name="price"
                 onChange={handleChange}
-                
+                defaultValue={update?.price}
               />
             </div>
 
@@ -79,7 +93,7 @@ function MyModal({products, setProducts}) {
                 placeholder="Sale..."
                 name="sale"
                 onChange={handleChange}
-
+                defaultValue={update?.sale}
               />
             </div>
 
@@ -94,7 +108,7 @@ function MyModal({products, setProducts}) {
                 placeholder="Quantity..."
                 name="quantity"
                 onChange={handleChange}
-
+                defaultValue={update?.quantity}
               />
             </div>
           </form>
@@ -103,10 +117,17 @@ function MyModal({products, setProducts}) {
         <ModalFooter>
           <Button
             color="secondary"
+            className="btn btn-danger"
+            onClick={cancelModal}
+          >
+            Cancel
+          </Button>
+          <Button
+            color="secondary"
             className="btn btn-success"
             onClick={createProduct}
           >
-            Yopish
+            Save
           </Button>
         </ModalFooter>
       </Modal>
