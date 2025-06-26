@@ -15,6 +15,9 @@ const Home = () => {
           <Link to="/posts" className="btn btn-info">
             Posts
           </Link>
+          <Link to="/stopwatch" className="btn btn-info">
+            StopWatch
+          </Link>
         </div>
       </div>
     </div>

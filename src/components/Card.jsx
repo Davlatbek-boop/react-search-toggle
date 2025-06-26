@@ -3,7 +3,7 @@ import React from "react";
 const Card = ({ item, deleteProduct, toggle, setUpdate}) => {
   const openUpdate = (item) =>{
     toggle()
-    setUpdate(item  )
+    setUpdate(item)
 
   }
   return (

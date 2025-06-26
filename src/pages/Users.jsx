@@ -31,7 +31,7 @@ const Users = () => {
 
   const moveSingleUser = (id) =>{
     navigate(`/users/${id}`)
-  }
+}
   return (
     <div className="container">
       <div className="row mt-5">
